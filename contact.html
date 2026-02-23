@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontak Kami - PupuKita</title>
+</head>
+<body>
+
+
+    <main>
+        <section id="lokasi">
+            <h2>Kantor Pusat PupuKita</h2>
+            <address>
+                <p><strong>Kelompok 3 - S1 Sistem Informasi</strong></p>
+                <p>UPN "Veteran" Jawa Timur</p>
+                <p>Jl. Raya Rungkut Madya No.1, Surabaya, Jawa Timur</p>
+                <p>Email: <a href="mailto:support@pupukita.id">support@pupukita.id</a></p>
+                <p>WhatsApp: +62 812-3456-7890</p>
+            </address>
+        </section>
+
+        <hr>
+
+        <section id="form-kontak">
+            <h2>Formulir Aspirasi & Bantuan</h2>
+            <p>Ada kendala dengan distribusi pupuk atau akun Anda? Silakan hubungi kami.</p>
+
+            <form action="#" method="POST">
+                <label for="full_name">Nama Lengkap:</label><br>
+                <input type="text" id="full_name" name="full_name" required placeholder="Masukkan nama sesuai KTP"><br><br>
+
+                <label for="user_email">Alamat Email:</label><br>
+                <input type="email" id="user_email" name="user_email" required placeholder="nama@petani.com"><br><br>
+
+                <label for="topic">Topik Pesan:</label><br>
+                <select id="topic" name="topic" required>
+                    <option value="">-- Pilih Topik --</option>
+                    <option value="distribusi">Masalah Distribusi Pupuk</option>
+                    <option value="akun">Kendala Akun Petani</option>
+                    <option value="kerjasama">Kerjasama Kelompok Tani</option>
+                    <option value="lainnya">Lainnya</option>
+                </select><br><br>
+
+                <label for="message">Pesan Anda:</label><br>
+                <textarea id="message" name="message" rows="5" cols="40" required placeholder="Tuliskan keluhan atau saran Anda di sini..."></textarea><br><br>
+
+                <input type="checkbox" id="copy" name="copy">
+                <label for="copy">Kirimkan salinan pesan ini ke email saya</label><br><br>
+
+                <button type="submit">Kirim Pesan Sekarang</button>
+                <button type="reset">Hapus Semua</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 PupuKita Team - Dikembangkan oleh Tim Kelompok 5</p>
+    </footer>
+
+</body>
+</html>
