@@ -1,44 +1,50 @@
 * {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  margin: 0;
-  background: #eef2f7;
-}
-
-.auth-container {
-  min-height: 100vh;
+  background: #dce8d9;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* CARD LOGIN */
+
 .auth-card {
-  background: #fff;
-  width: 100%;
-  max-width: 420px;
-  padding: 40px 30px;
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 40px;
+  border-radius: 14px;
+  width: 400px;
   text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
+
+/* LOGO */
 
 .logo img {
-  width: 80px;
-  margin-bottom: 15px;
+  width: 70px;
+  margin-bottom: 10px;
 }
 
-.auth-card h2 {
+/* TITLE */
+
+h2 {
+  color: #2e7d32;
   margin-bottom: 5px;
 }
 
 .subtitle {
   color: #666;
-  margin-bottom: 30px;
   font-size: 14px;
+  margin-bottom: 25px;
 }
+
+/* FORM */
 
 .form-group {
   text-align: left;
@@ -46,71 +52,142 @@ body {
 }
 
 .form-group label {
-  display: block;
   font-size: 14px;
-  margin-bottom: 6px;
+  color: #333;
 }
 
 .form-group input {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
+  padding: 10px;
+  margin-top: 6px;
   border: 1px solid #ccc;
+  border-radius: 6px;
   font-size: 14px;
+  transition: 0.2s;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #2d6cdf;
+  border-color: #4caf50;
 }
 
-.form-extra {
+/* PASSWORD INPUT */
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: gray;
+}
+
+.toggle-password:hover {
+  color: #2e7d32;
+}
+
+/* saat password terlihat */
+
+.toggle-password.active {
+  color: #4caf50;
+}
+
+.password-rules {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.password-rules p {
+  margin: 3px 0;
+  color: #888;
+  transition: 0.2s;
+}
+
+.password-rules p.valid {
+  color: #4caf50;
+  font-weight: 600;
+}
+
+/* LUPA PASSWORD */
+
+.forgot {
   text-align: right;
-  margin-bottom: 20px;
-}
-
-.form-extra a {
   font-size: 13px;
-  text-decoration: none;
-  color: #2d6cdf;
+  margin-bottom: 15px;
 }
 
-button {
+.forgot a {
+  color: #4caf50;
+  text-decoration: none;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
+}
+
+/* BUTTON LOGIN */
+
+button[type="submit"] {
   width: 100%;
   padding: 12px;
-  background: #2d6cdf;
+  background: #4caf50;
+  color: white;
   border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 8px;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-button:hover {
-  background: #1f54b8;
+button[type="submit"]:hover {
+  background: #388e3c;
 }
+
+/* ERROR */
+
+.error-text {
+  color: red;
+  font-size: 12px;
+}
+
+.input-error {
+  border-color: red !important;
+}
+
+/* DAFTAR */
 
 .switch {
-  margin-top: 20px;
+  margin-top: 15px;
   font-size: 14px;
 }
 
 .switch a {
-  color: #2d6cdf;
+  color: #2e7d32;
+  font-weight: 600;
   text-decoration: none;
-  font-weight: bold;
 }
 
-/* ERROR STYLE */
-.input-error {
-  border-color: #e74c3c !important;
-  background: #fff5f5;
+.switch a:hover {
+  text-decoration: underline;
 }
 
-.error-text {
-  color: #e74c3c;
-  font-size: 12px;
-  margin-top: 5px;
-  display: block;
+/* RESPONSIVE */
+
+@media (max-width: 480px) {
+  .auth-card {
+    width: 90%;
+    padding: 30px;
+  }
 }

@@ -32,9 +32,18 @@
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Masukkan password">
+
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Masukkan password">
+          <button type="button" id="togglePassword" class="toggle-password">👁</button>
+        </div>
+
         <small class="error-text" id="passwordError"></small>
       </div>
+
+      <p class="forgot">
+        <a href="#">Lupa password?</a>
+      </p>
 
       <button type="submit">Login</button>
 
@@ -56,6 +65,21 @@ const password = document.getElementById("password");
 
 const nikError = document.getElementById("nikError");
 const passwordError = document.getElementById("passwordError");
+
+const toggle = document.getElementById("togglePassword");
+
+toggle.addEventListener("click", function(){
+
+  if(password.type === "password"){
+    password.type = "text";
+    toggle.classList.add("active");
+  } 
+  else{
+    password.type = "password";
+    toggle.classList.remove("active");
+  }
+
+});
 
 // ===== VALIDASI NIK REALTIME =====
 nik.addEventListener("input", function() {

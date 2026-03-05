@@ -39,14 +39,33 @@
       <!-- PASSWORD -->
       <div class="form-group">
         <label>Password</label>
-        <input type="password" id="password" name="password" placeholder="Minimal 8 karakter">
+
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Minimal 8 karakter">
+          <button type="button" class="toggle-password" id="togglePassword1">👁</button>
+        </div>
+
+        <!-- PASSWORD REQUIREMENTS -->
+        <div class="password-rules">
+          <p id="rule-length">• Minimal 8 karakter</p>
+          <p id="rule-upper">• Huruf besar (A-Z)</p>
+          <p id="rule-lower">• Huruf kecil (a-z)</p>
+          <p id="rule-number">• Angka (0-9)</p>
+          <p id="rule-symbol">• Simbol (!@#$ dll)</p>
+        </div>
+
         <small class="error-text" id="passwordError"></small>
       </div>
 
       <!-- CONFIRM -->
       <div class="form-group">
         <label>Verifikasi Password</label>
-        <input type="password" id="confirmPassword" placeholder="Ulangi password">
+
+        <div class="password-wrapper">
+          <input type="password" id="confirmPassword" placeholder="Ulangi password">
+          <button type="button" class="toggle-password" id="togglePassword2">👁</button>
+        </div>
+
         <small class="error-text" id="confirmError"></small>
       </div>
 
@@ -75,6 +94,76 @@ const nikError = document.getElementById("nikError");
 const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
 const confirmError = document.getElementById("confirmError");
+
+const toggle1 = document.getElementById("togglePassword1");
+const toggle2 = document.getElementById("togglePassword2");
+
+toggle1.addEventListener("click", function(){
+  if(password.type === "password"){
+    password.type = "text";
+    toggle1.classList.add("active");
+  } else{
+    password.type = "password";
+    toggle1.classList.remove("active");
+  }
+});
+
+toggle2.addEventListener("click", function(){
+  if(confirmPassword.type === "password"){
+    confirmPassword.type = "text";
+    toggle2.classList.add("active");
+  } else{
+    confirmPassword.type = "password";
+    toggle2.classList.remove("active");
+  }
+});
+
+const ruleLength = document.getElementById("rule-length");
+const ruleUpper = document.getElementById("rule-upper");
+const ruleLower = document.getElementById("rule-lower");
+const ruleNumber = document.getElementById("rule-number");
+const ruleSymbol = document.getElementById("rule-symbol");
+
+password.addEventListener("input", function(){
+
+  const value = password.value;
+
+  // panjang
+  if(value.length >= 8){
+    ruleLength.classList.add("valid");
+  } else {
+    ruleLength.classList.remove("valid");
+  }
+
+  // huruf besar
+  if(/[A-Z]/.test(value)){
+    ruleUpper.classList.add("valid");
+  } else {
+    ruleUpper.classList.remove("valid");
+  }
+
+  // huruf kecil
+  if(/[a-z]/.test(value)){
+    ruleLower.classList.add("valid");
+  } else {
+    ruleLower.classList.remove("valid");
+  }
+
+  // angka
+  if(/[0-9]/.test(value)){
+    ruleNumber.classList.add("valid");
+  } else {
+    ruleNumber.classList.remove("valid");
+  }
+
+  // simbol
+  if(/[^A-Za-z0-9]/.test(value)){
+    ruleSymbol.classList.add("valid");
+  } else {
+    ruleSymbol.classList.remove("valid");
+  }
+
+});
 
 /* ================= REALTIME ================= */
 
