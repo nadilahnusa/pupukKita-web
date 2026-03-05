@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Data Petani</title>
+
+    <link rel="stylesheet" href="assets/css/petani.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <h1>Manajemen Data Petani</h1>
+        <div class="card">
+
+            <form id="formPetani">
+            <input type="hidden" id="editIndex">
+
+                <div class="form-group">
+                    <label>Nama Petani</label>
+                    <input type="text" id="nama" placeholder="Masukkan nama petani">
+                </div>
+
+                <div class="form-group">
+                    <label>NIK</label>
+                    <input type="text" id="nik" placeholder="16 digit NIK">
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat</label>
+                    <textarea id="alamat" placeholder="Masukkan alamat"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>No Telepon</label>
+                    <input type="text" id="telp" placeholder="08xxxxxxxx">
+                </div>
+
+                <div class="form-group">
+                    <label>Jenis Kelamin</label>
+
+                    <div class="radio-group">
+                        <label>
+                        <input type="radio" name="jk" value="Laki-laki">
+                        Laki-laki
+                    </label>
+
+                    <label>
+                        <input type="radio" name="jk" value="Perempuan">
+                        Perempuan
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Luas Lahan (Ha)</label>
+                    <input type="number" id="lahan" step="0.1" placeholder="Contoh 1.5">
+                </div>
+
+                <button type="submit" class="btn">Simpan Data</button>
+
+            </form>
+
+        </div>
+
+
+        <div class="table-card">
+
+            <h2>Data Petani</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>NIK</th>
+                        <th>Alamat</th>
+                        <th>Telp</th>
+                        <th>JK</th>
+                        <th>Lahan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabelPetani"></tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <script src="petani.js"></script>
+
+</body>
+</html>
