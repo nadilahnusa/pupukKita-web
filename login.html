@@ -2,38 +2,42 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login | Distribusi Pupuk</title>
+
+  <!-- CSS -->
   <link rel="stylesheet" href="assets/css/auth.css">
 </head>
+
 <body>
 
 <div class="auth-container">
   <div class="auth-card">
 
-    <!-- LOGO -->
+    <!-- LOGO (SUDAH DITAMBAHKAN LAGI) -->
     <div class="logo">
-      <img src="assets/img/logo.png" alt="Logo Web">
+      <img src="assets/img/logo.png" alt="Logo Distribusi Pupuk">
     </div>
 
     <h2>Selamat Datang Kembali</h2>
     <p class="subtitle">Silakan login untuk melanjutkan</p>
 
-    <form>
+    <form id="loginForm" action="proses_login.php" method="POST">
+
       <div class="form-group">
-        <label>NIK</label>
-        <input type="text" placeholder="Masukkan NIK" required>
+        <label for="nik">NIK</label>
+        <input type="text" id="nik" name="nik" placeholder="Masukkan NIK">
+        <small class="error-text" id="nikError"></small>
       </div>
 
       <div class="form-group">
-        <label>Password</label>
-        <input type="password" placeholder="Masukkan password" required>
-      </div>
-
-      <div class="form-extra">
-        <a href="#">Lupa password?</a>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan password">
+        <small class="error-text" id="passwordError"></small>
       </div>
 
       <button type="submit">Login</button>
+
     </form>
 
     <p class="switch">
@@ -43,6 +47,79 @@
 
   </div>
 </div>
+
+<!-- JAVASCRIPT -->
+<script>
+const form = document.getElementById("loginForm");
+const nik = document.getElementById("nik");
+const password = document.getElementById("password");
+
+const nikError = document.getElementById("nikError");
+const passwordError = document.getElementById("passwordError");
+
+// ===== VALIDASI NIK REALTIME =====
+nik.addEventListener("input", function() {
+
+  nik.classList.remove("input-error");
+  nikError.textContent = "";
+
+  if (nik.value.trim() === "") return;
+
+  if (!/^\d*$/.test(nik.value)) {
+    nik.classList.add("input-error");
+    nikError.textContent = "NIK hanya boleh angka.";
+  }
+  else if (nik.value.length > 16) {
+    nik.classList.add("input-error");
+    nikError.textContent = "NIK maksimal 16 digit.";
+  }
+  else if (nik.value.length > 0 && nik.value.length < 16) {
+    nik.classList.add("input-error");
+    nikError.textContent = "NIK harus 16 digit.";
+  }
+});
+
+// ===== VALIDASI PASSWORD REALTIME =====
+password.addEventListener("input", function() {
+
+  password.classList.remove("input-error");
+  passwordError.textContent = "";
+
+  if (password.value.trim() === "") return;
+
+});
+
+// ===== VALIDASI SAAT SUBMIT (FINAL CHECK) =====
+form.addEventListener("submit", function(e) {
+
+  let valid = true;
+
+  // Reset dulu
+  nik.classList.remove("input-error");
+  password.classList.remove("input-error");
+  nikError.textContent = "";
+  passwordError.textContent = "";
+
+  // Cek NIK
+  if (nik.value.trim() === "" ||
+      !/^\d{16}$/.test(nik.value)) {
+    nik.classList.add("input-error");
+    nikError.textContent = "NIK harus 16 digit angka.";
+    valid = false;
+  }
+
+  // Cek Password
+  if (password.value.trim() === "") {
+    password.classList.add("input-error");
+    passwordError.textContent = "Password wajib diisi.";
+    valid = false;
+  }
+
+  if (!valid) {
+    e.preventDefault();
+  }
+});
+</script>
 
 </body>
 </html>

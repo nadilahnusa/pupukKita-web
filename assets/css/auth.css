@@ -101,3 +101,16 @@ button:hover {
   text-decoration: none;
   font-weight: bold;
 }
+
+/* ERROR STYLE */
+.input-error {
+  border-color: #e74c3c !important;
+  background: #fff5f5;
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
+}
