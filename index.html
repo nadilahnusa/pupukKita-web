@@ -1,87 +1,187 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PupuKita - Distribusi Pupuk Dusun Kowak</title>
+    <title>PupuKita - Sistem Distribusi Pupuk</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-    <nav>
-        <strong>PupuKita</strong>
-        <a href="index.html">Beranda</a> 
-        <a href="about.html">Tentang</a> 
-        <a href="portfolio.html">Portofolio</a>
-        <a href="contact.html">Kontak</a> 
-        
-        <button type="button">Masuk</button>
-        <button type="button">Daftar</button>
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="logo">PupuKita</div>
+
+        <ul class="nav-links">
+            <li><a href="#home">Beranda</a></li>
+            <li><a href="#about">Tentang</a></li>
+            <li><a href="#features">Fitur</a></li>
+            <li><a href="#team">Tim</a></li>
+            <li><a href="#contact">Kontak</a></li>
+        </ul>
+
+        <div class="nav-buttons">
+
+            <a href="login.html">
+            <button class="btn-outline">Masuk</button>
+            </a>
+
+            <a href="signup.html">
+            <button class="btn-primary">Daftar</button>
+            </a>
+
+        </div>
+
     </nav>
 
-    <hr>
 
-    <header>
-        <h1>Solusi Digital Distribusi Pupuk Dusun Kowak</h1>
-        <p>Membantu petani dalam pengelolaan dan transparansi distribusi pupuk secara efisien.</p>
-        <button type="button">Mulai Sekarang</button>
-        <button type="button">Lihat Panduan</button>
-    </header>
+    <!-- HERO -->
 
-    <br>
-    <hr>
+    <section id="home" class="hero">
 
-    <section id="statistik">
-        <h2>Kondisi Saat Ini di Dusun Kowak</h2>
-        <table border="0" cellpadding="10">
-            <tr>
-                <td>
-                    <h3>150+</h3>
-                    <p>Anggota Tani Terdaftar</p>
-                </td>
-                <td>
-                    <h3>2</h3>
-                    <p>Kelompok Tani Aktif</p>
-                </td>
-                <td>
-                    <h3>100%</h3>
-                    <p>Target Tepat Sasaran</p>
-                </td>
-            </tr>
-        </table>
+        <h1>Solusi Digital Distribusi Pupuk</h1>
+
+        <p>Membantu kelompok tani mengelola distribusi pupuk secara transparan dan efisien.</p>
+
+        <div class="hero-buttons">
+            <button class="btn-primary">Mulai Sekarang</button>
+            <button class="btn-outline">Lihat Panduan</button>
+        </div>
+
     </section>
 
-    <br>
-    <hr>
 
-    <section id="fitur">
-        <h2>Layanan Utama PupuKita</h2>
-        
-        <h3>1. Monitoring Kuota</h3>
-        <p>Petani dapat mengecek sisa kuota pupuk tahunan secara real-time.</p>
+    <!-- STATISTIK -->
 
-        <h3>2. Pencatatan Digital</h3>
-        <p>Admin kelompok tani mencatat setiap pengambilan pupuk tanpa perlu kertas manual.</p>
+    <section class="stats">
 
-        <h3>3. Laporan Transparan</h3>
-        <p>Riwayat distribusi yang dapat dipertanggungjawabkan kepada seluruh warga dusun.</p>
+        <div class="stat-card">
+            <h2>150+</h2>
+            <p>Petani Terdaftar</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>2</h2>
+            <p>Kelompok Tani</p>
+        </div>
+
+        <div class="stat-card">
+            <h2>100%</h2>
+            <p>Distribusi Tepat Sasaran</p>
+        </div>
+
     </section>
 
-    <br>
-    <hr>
 
-    <section id="cta">
-        <h2>Siap beralih ke sistem digital?</h2>
-        <p>Daftarkan diri Anda sebagai anggota kelompok tani Dusun Kowak sekarang juga.</p>
-        <button type="button">Daftar Sekarang</button>
+    <!-- ABOUT -->
+
+    <section id="about" class="about">
+
+        <h2>Tentang PupuKita</h2>
+
+        <p>
+            PupuKita adalah sistem informasi yang membantu kelompok tani dalam
+            mengelola distribusi pupuk secara digital. Sistem ini dirancang untuk
+            meningkatkan transparansi, efisiensi, dan akurasi dalam pencatatan
+            pupuk bersubsidi.
+        </p>
+
     </section>
 
-    <br>
-    <hr>
+
+    <!-- FEATURES -->
+
+    <section id="features" class="features">
+
+        <h2>Fitur Utama</h2>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <h3>Monitoring Kuota</h3>
+                <p>Petani dapat melihat sisa kuota pupuk secara real-time.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Pencatatan Digital</h3>
+                <p>Admin mencatat distribusi pupuk tanpa sistem manual.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3>Laporan Transparan</h3>
+                <p>Riwayat distribusi pupuk tercatat dan dapat dipantau.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TEAM -->
+
+    <section id="team" class="team">
+
+        <h2>Tim Pengembang</h2>
+
+        <div class="team-grid">
+
+            <div class="team-card">
+                <img src="assets/images/contoh.png">
+                <h3>Nadilah</h3>
+                <span>System Analyst</span>
+            </div>
+
+            <div class="team-card">
+                <img src="assets/images/Alee.jpeg">
+                <h3>Alya Darwanti</h3>
+                <span>Web Developer</span>
+            </div>
+
+            <div class="team-card">
+                <img src="assets/images/tsabita.jpeg">
+                <h3>Septia Tsabitha</h3>
+                <span>UI/UX Designer</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+
+    <section id="contact" class="contact">
+
+        <h2>Hubungi Kami</h2>
+
+        <form>
+
+            <input type="text" placeholder="Nama Lengkap">
+
+            <input type="email" placeholder="Email">
+
+            <textarea placeholder="Pesan"></textarea>
+
+            <button class="btn-primary">Kirim Pesan</button>
+
+        </form>
+
+    </section>
+
+
+    <!-- FOOTER -->
 
     <footer>
-        <p>&copy; 2026 PupuKita - Proyek Manajemen Distribusi Pupuk Dusun Kowak.</p>
-        <p>Made with <strong>Love</strong></p>
+
+        <p>© 2026 PupuKita - Sistem Distribusi Pupuk</p>
+
     </footer>
 
 </body>
+
 </html>
