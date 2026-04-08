@@ -3,7 +3,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link href="./css/style.css" rel="stylesheet" />
+    <link href="./assets/css/style.css" rel="stylesheet" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
@@ -78,7 +78,7 @@
             </nav>
 
             <a
-              href="login.html"
+              href="./auth/login.php"
               class="flex min-w-[130px] cursor-pointer items-center justify-center rounded-full h-11 px-6 bg-primary-forest text-white text-sm font-bold tracking-wide hover:bg-primary-lime transition-all duration-300 futuristic-shadow"
             >
               Masuk
@@ -105,7 +105,7 @@
           <a href="#team" class="text-slate-600 font-semibold"> Tim </a>
 
           <a
-            href="login.html"
+            href="./auth/login.php"
             class="mt-4 flex items-center justify-center rounded-full py-3 bg-primary-forest text-white font-semibold"
           >
             Masuk
@@ -517,7 +517,7 @@
                     <img
                       alt="Nadilah"
                       class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                      src="./images/nadilah.jpg"
+                      src="./assets/img/nadilah.jpg"
                     />
                   </div>
 
@@ -541,7 +541,7 @@
                     <img
                       alt="Alya Darwanti"
                       class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                      src="./images/Alee.jpeg"
+                      src="./assets/img/Alee.jpeg"
                     />
                   </div>
 
@@ -565,7 +565,7 @@
                     <img
                       alt="Septia Tsabitha"
                       class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-                      src="./images/tsabita.jpeg"
+                      src="./assets/img/tsabita.jpeg"
                     />
                   </div>
 

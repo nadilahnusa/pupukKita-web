@@ -1,6 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./public/**/*.{html,js}"],
+  content: [
+    "./*.{html,php}", // Untuk scan index.php / index.html di luar
+    "./components/**/*.php", // Untuk scan file di folder components
+    "./auth/**/*.php", // Untuk scan file di folder auth
+    "./su_admin/**/*.php", // Untuk scan file di folder su_admin
+    "./gudang/**/*.php", // Untuk scan file di folder gudang
+    "./petani/**/*.php", // Untuk scan file di folder petani
+    "./assets/js/**/*.js", // Untuk scan jika ada manipulasi class di JavaScript
+  ],
   theme: {
     extend: {
       colors: {
