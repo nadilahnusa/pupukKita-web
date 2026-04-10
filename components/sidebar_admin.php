@@ -1,3 +1,6 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <aside id="sidebar" class="w-64 border-r border-primary-lime/20 bg-white hidden md:flex flex-col shrink-0 transition-all duration-300 fixed md:sticky top-0 left-0 z-50 h-screen shadow-2xl md:shadow-none">
   
   <div class="h-16 flex items-center px-4 border-b border-primary-lime/20">
@@ -13,34 +16,69 @@
   </div>
 
   <nav class="flex-1 p-4 space-y-2">
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-lime/20 text-primary-forest font-bold shadow-sm" href="dashboard_su_admin.php">
-      <span class="material-symbols-outlined">dashboard</span>
-      <span class="text-sm">Dashboard</span>
+    <a href="dashboard_su_admin.php"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'dashboard_su_admin.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+    
+    <span class="material-symbols-outlined">dashboard</span>
+    <span class="text-sm">Dashboard</span>
     </a>
     
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="manajemen_petani.php">
-      <span class="material-symbols-outlined">group</span>
-      <span class="text-sm">Data Petani</span>
+    <a href="manajemen_petani.php"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'manajemen_petani.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">group</span>
+    <span class="text-sm">Data Petani</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
-      <span class="material-symbols-outlined">inventory_2</span>
-      <span class="text-sm">Stok Pupuk</span>
+    <a href="#"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'stok_pupuk.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">inventory_2</span>
+    <span class="text-sm">Stok Pupuk</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
-      <span class="material-symbols-outlined">check_circle</span>
-      <span class="text-sm">Validasi Data</span>
+    <a href="#"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'stok_pupuk.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">check_circle</span>
+    <span class="text-sm">Validasi Data</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
-      <span class="material-symbols-outlined">bar_chart</span>
-      <span class="text-sm">Laporan</span>
+    <a href="#"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'stok_pupuk.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">bar_chart</span>
+    <span class="text-sm">Laporan</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
-      <span class="material-symbols-outlined">history</span>
-      <span class="text-sm">Log Aktivitas</span>
+    <a href="#"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'stok_pupuk.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">history</span>
+    <span class="text-sm">Log Aktifitas</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
-      <span class="material-symbols-outlined">help</span>
-      <span class="text-sm">Pusat Bantuan</span>
+    <a href="#"
+   class="flex items-center gap-3 px-4 py-3 rounded-lg 
+   <?php echo $current_page == 'stok_pupuk.php'
+   ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+   : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+
+    <span class="material-symbols-outlined">help</span>
+    <span class="text-sm">Pusat bantuan</span>
     </a>
   </nav>
 
