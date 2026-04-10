@@ -1,24 +1,35 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./*.{html,php}", // Untuk scan index.php / index.html di luar
-    "./components/**/*.php", // Untuk scan file di folder components
-    "./auth/**/*.php", // Untuk scan file di folder auth
-    "./su_admin/**/*.php", // Untuk scan file di folder su_admin
-    "./gudang/**/*.php", // Untuk scan file di folder gudang
-    "./petani/**/*.php", // Untuk scan file di folder petani
-    "./assets/js/**/*.js", // Untuk scan jika ada manipulasi class di JavaScript
+    "./*.{html,php}",
+    "./components/**/*.php",
+    "./auth/**/*.php",
+    "./su_admin/**/*.{php,html}",
+    "./gudang/**/*.php",
+    "./petani/**/*.php",
+    "./assets/js/**/*.js",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
+        // Sesuai CDN config-mu sebelumnya
+        primary: "#86bd05",
+        secondary: "#4d7c0f",
+        accent: "#d9f99d",
+
+        // Light/dark background
+        "background-light": "#f7f8f5",
+        "background-dark": "#1d230f",
+
+        // Tambahan milik config versi kamu
         "primary-lime": "#84cc16",
         "primary-forest": "#14532d",
         "bg-soft": "#f9fafb",
         "bg-card": "#ffffff",
       },
       fontFamily: {
-        display: ["Space Grotesk", "sans-serif"],
+        display: ["Work Sans", "Space Grotesk", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "0.5rem",
