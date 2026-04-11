@@ -58,20 +58,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Tambah Petani | PupuKita</title>
   
   <link href="../assets/css/style.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
 <body class="bg-bg-soft font-display text-slate-800">
-  <div class="flex min-h-screen overflow-x-hidden">
+  <div class="relative flex h-screen w-full overflow-hidden">
     
     <?php include '../components/sidebar_admin.php'; ?>
 
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
       
-      <?php include '../components/header_admin.php'; ?>
-      
-      <div class="p-4 md:p-8 max-w-3xl mx-auto w-full mt-4">
+      <div class="space-y-6 md:space-y-8 mt-4 md:mt-6">
         
         <!-- Header Area -->
         <div class="flex items-center gap-4 mb-8">
@@ -94,31 +92,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Form Card -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-            <form action="" method="POST" class="p-6 md:p-8 space-y-6">
+            <form id="formTambahPetani" action="" method="POST" class="p-6 md:p-8 space-y-6">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">Nama Lengkap</label>
-                        <input type="text" name="nama" required placeholder="Masukkan nama petani"
+                        <input type="text" id="nama" name="nama" required placeholder="Masukkan nama petani"
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all text-slate-700 font-medium">
+                        <p id="error-nama" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
 
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">NIK (Nomor Induk Kependudukan)</label>
-                        <input type="text" name="nik" required placeholder="16 digit NIK" maxlength="16" minlength="16"
+                        <input type="text" id="nik" name="nik" required placeholder="16 digit NIK" maxlength="16" minlength="16"
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all font-mono text-slate-700 font-medium">
+                        <p id="error-nik" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
                     
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">Password Akun</label>
-                        <input type="text" name="password" required placeholder="Buat password"
+                        <input type="password" id="password" name="password" required placeholder="Buat password"
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all font-mono text-slate-700 font-medium">
+                        <p id="error-password" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
                     
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">Luas Tanah Lahan (m²)</label>
-                        <input type="number" step="0.01" name="luas_tanah" placeholder="Contoh: 1500" required
+                        <input type="number" step="0.01" id="luas_tanah" name="luas_tanah" placeholder="Contoh: 1500" required
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all font-medium text-slate-700 shadow-sm">
+                        <p id="error-luas-tanah" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
                 </div>
 
@@ -152,6 +154,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
     if (toggleBtn && sidebar) { toggleBtn.addEventListener('click', () => { if (window.innerWidth < 768) { sidebar.classList.toggle('hidden'); sidebar.classList.toggle('flex'); sidebar.classList.remove('-ml-64'); } else { sidebar.classList.toggle('-ml-64'); sidebar.classList.add('hidden'); sidebar.classList.remove('flex'); } }); }
+
+    const formTambah = document.getElementById('formTambahPetani');
+    if (formTambah) {
+        const inputNama = document.getElementById('nama');
+        const inputNik = document.getElementById('nik');
+        const inputPassword = document.getElementById('password');
+        const inputLuasTanah = document.getElementById('luas_tanah');
+
+        const errNama = document.getElementById('error-nama');
+        const errNik = document.getElementById('error-nik');
+        const errPassword = document.getElementById('error-password');
+        const errLuasTanah = document.getElementById('error-luas-tanah');
+
+        // Helper function untuk menampilkan/menyembunyikan error dan warna border
+        function toggleError(input, errorEl, message) {
+            if (message) {
+                errorEl.textContent = message;
+                errorEl.classList.remove('hidden');
+                input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
+                input.classList.remove('border-slate-200', 'focus:border-primary-lime', 'focus:ring-primary-lime/20');
+                return false;
+            } else {
+                errorEl.classList.add('hidden');
+                input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
+                input.classList.add('border-slate-200', 'focus:border-primary-lime', 'focus:ring-primary-lime/20');
+                return true;
+            }
+        }
+
+        function checkNama() {
+            const val = inputNama.value.trim();
+            if (val !== '' && !/^[a-zA-Z\s]+$/.test(val)) {
+                return toggleError(inputNama, errNama, "Nama hanya boleh berisi huruf.");
+            }
+            return toggleError(inputNama, errNama, null);
+        }
+
+        function checkNik() {
+            const val = inputNik.value.trim();
+            if (val !== '' && !/^\d{16}$/.test(val)) {
+                return toggleError(inputNik, errNik, "NIK harus terdiri dari 16 digit angka.");
+            }
+            return toggleError(inputNik, errNik, null);
+        }
+
+        function checkPassword() {
+            const val = inputPassword.value.trim();
+            if (val !== '' && (val.length < 6 || !/(?=.*[a-zA-Z])(?=.*\d)(?=.*[\W_])/.test(val))) {
+                return toggleError(inputPassword, errPassword, "Password minimal 6 digit, kombinasi huruf, angka & simbol.");
+            }
+            return toggleError(inputPassword, errPassword, null);
+        }
+
+        function checkLuasTanah() {
+            const val = inputLuasTanah.value.trim();
+            if (val !== '' && (isNaN(val) || parseFloat(val) <= 0)) {
+                return toggleError(inputLuasTanah, errLuasTanah, "Luas tanah harus berupa angka valid lebih dari 0.");
+            }
+            return toggleError(inputLuasTanah, errLuasTanah, null);
+        }
+
+        // Terapkan validasi secara real-time saat mengetik
+        inputNama.addEventListener('input', checkNama);
+        inputNik.addEventListener('input', checkNik);
+        inputPassword.addEventListener('input', checkPassword);
+        inputLuasTanah.addEventListener('input', checkLuasTanah);
+
+        // Tetap cegah submit jika masih ada yang error
+        formTambah.addEventListener('submit', function(e) {
+            const v1 = checkNama();
+            const v2 = checkNik();
+            const v3 = checkPassword();
+            const v4 = checkLuasTanah();
+            if (!v1 || !v2 || !v3 || !v4) {
+                e.preventDefault();
+            }
+        });
+    }
   </script>
 </body>
 </html>

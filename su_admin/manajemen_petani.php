@@ -26,12 +26,36 @@ if ($search_query) {
 
 $where_sql = count($where_clauses) > 0 ? " WHERE " . implode(" AND ", $where_clauses) : "";
 
+// --- LOGIKA PAGINATION ---
+$items_per_page = 10; // Jumlah item per halaman
+$page_aktif = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page_aktif < 1) $page_aktif = 1;
+
+// Hitung total data yang sesuai dengan filter
+$count_sql = "SELECT COUNT(petani.id) as total 
+              FROM petani 
+              LEFT JOIN users ON petani.user_id = users.id" . $where_sql;
+$count_result = $conn->query($count_sql);
+$total_items = $count_result->fetch_assoc()['total'] ?? 0;
+$total_pages = ceil($total_items / $items_per_page);
+
+// Pastikan halaman saat ini tidak melebihi total halaman
+if ($page_aktif > $total_pages && $total_pages > 0) {
+    $page_aktif = $total_pages;
+}
+
+// Hitung offset untuk query
+$offset = ($page_aktif - 1) * $items_per_page;
+
 // Terapkan filter ke Query SQL
 $sql = "SELECT petani.*, users.nik AS user_nik, users.nama AS user_nama
         FROM petani
-        LEFT JOIN users ON petani.user_id = users.id" . $where_sql . " ORDER BY petani.id DESC";
+        LEFT JOIN users ON petani.user_id = users.id" . $where_sql . " ORDER BY petani.id DESC LIMIT ? OFFSET ?";
 
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("ii", $items_per_page, $offset);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -42,20 +66,20 @@ $result = $conn->query($sql);
   
   <link href="../assets/css/style.css" rel="stylesheet" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
 <body class="bg-bg-soft font-display text-slate-800">
-  <div class="flex min-h-screen overflow-x-hidden">
+  <div class="relative flex h-screen w-full overflow-hidden">
     
     <?php include '../components/sidebar_admin.php'; ?>
 
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
       
       <?php include '../components/header_admin.php'; ?>
       
-      <div class="p-4 md:p-8 space-y-6 md:space-y-8">
+      <div class="space-y-6 md:space-y-8 mt-4 md:mt-6">
 
         <!-- Notifikasi Pesan Sukses -->
         <?php if (isset($_GET['msg']) && $_GET['msg'] == 'edit_success'): ?>
@@ -74,86 +98,14 @@ $result = $conn->query($sql);
         <!-- Top Navigation Area -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-slate-800">Direktori Petani</h2>
-            <p class="text-sm text-slate-500 font-medium mt-1">Kelola data 1.284 petani yang terdaftar di ekosistem.</p>
+            <h2 class="text-3xl font-black tracking-tight text-emerald-800">Direktori Petani</h2>
+            <p class="text-primary-lime font-bold uppercase text-xs tracking-wider">Kelola data <?php echo number_format($total_items); ?> petani yang terdaftar di ekosistem.</p>
           </div>
           <a href="tambah_petani.php" class="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary-forest text-white font-bold rounded-lg hover:bg-primary-lime transition-all shadow-md">
             <span class="material-symbols-outlined text-[20px]">person_add</span>
             <span class="text-sm">Tambah Petani Baru</span>
           </a>
         </div>
-        <!-- Dashboard Stats Cards -->
-       <!-- <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
-
-        
-          <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-sm font-semibold text-slate-500">Total Petani</p>
-                <h3 class="text-3xl font-bold text-slate-800 mt-1">1.284</h3>
-              </div>
-              <div class="bg-primary-lime/10 p-3 rounded-xl text-primary-forest">
-                <span class="material-symbols-outlined">groups</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center gap-2 text-sm font-bold text-emerald-600">
-              <span class="material-symbols-outlined text-sm">trending_up</span>
-              <span>+12% dari bulan lalu</span>
-            </div>
-          </div>
-
-          
-          <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-sm font-semibold text-slate-500">Akun Aktif</p>
-                <h3 class="text-3xl font-bold text-slate-800 mt-1">1.102</h3>
-              </div>
-              <div class="bg-blue-100 p-3 rounded-xl text-blue-600">
-                <span class="material-symbols-outlined">verified_user</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center gap-2 text-sm font-bold text-blue-500">
-              <span class="material-symbols-outlined text-sm">check_circle</span>
-              <span>86% dari total</span>
-            </div>
-          </div>
-
-          
-          <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-sm font-semibold text-slate-500">Menunggu Persetujuan</p>
-                <h3 class="text-3xl font-bold text-slate-800 mt-1">45</h3>
-              </div>
-              <div class="bg-yellow-100 p-3 rounded-xl text-yellow-700">
-                <span class="material-symbols-outlined">pending_actions</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center gap-2 text-sm font-bold text-yellow-600">
-              <span class="material-symbols-outlined text-sm">warning</span>
-              <span>Perlu verifikasi</span>
-            </div>
-          </div>
-
-          
-          <div class="bg-white dark:bg-background-dark p-6 rounded-xl border border-primary/10 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-start justify-between">
-              <div>
-                <p class="text-sm font-semibold text-slate-500">Akun Nonaktif</p>
-                <h3 class="text-3xl font-bold text-slate-800 mt-1">137</h3>
-              </div>
-              <div class="bg-slate-100 p-3 rounded-xl text-slate-600">
-                <span class="material-symbols-outlined">person_off</span>
-              </div>
-            </div>
-            <div class="mt-4 flex items-center gap-2 text-sm font-bold text-slate-500">
-              <span class="material-symbols-outlined text-sm">trending_down</span>
-              <span>-2% dari bulan lalu</span>
-            </div>
-          </div>
-
-        </div> -->
 
         <!-- Filters and Table Card -->
         <div class="bg-bg-card rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
@@ -164,17 +116,17 @@ $result = $conn->query($sql);
                 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
                 <input name="search" value="<?php echo htmlspecialchars($search_query); ?>" class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary-lime/20 focus:border-primary-lime outline-none transition-all bg-bg-soft" placeholder="Cari nama, NIK, atau ID..." type="text" onblur="this.form.submit()"/>
               </div>
-              <select name="status" onchange="this.form.submit()" class="border border-slate-200 rounded-xl text-sm px-4 py-2 focus:ring-2 focus:ring-primary-lime/20 focus:border-primary-lime outline-none bg-bg-soft text-slate-600 font-medium">
+            <select name="status" onchange="this.form.submit()" class="min-w-[180px] border border-slate-200 rounded-xl text-sm px-4 py-2 focus:ring-2 focus:ring-primary-lime/20 focus:border-primary-lime outline-none bg-bg-soft text-slate-600 font-medium">
                 <option value="all">Semua Status</option>
                 <option value="Aktif" <?php echo $status_filter == 'Aktif' ? 'selected' : ''; ?>>Aktif</option>
-                <option value="Pending" <?php echo $status_filter == 'Pending' ? 'selected' : ''; ?>>Pending</option>
+              <option value="Pending" <?php echo $status_filter == 'Pending' ? 'selected' : ''; ?>>Pending</option>
                 <option value="Nonaktif" <?php echo $status_filter == 'Nonaktif' ? 'selected' : ''; ?>>Nonaktif</option>
               </select>
             </div>
             <div class="flex items-center gap-2">
-              <button type="button" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50 border border-transparent hover:border-slate-200 rounded-xl transition-all text-sm font-bold shadow-sm">
-                <span class="material-symbols-outlined text-[18px]">filter_list</span>
-                Filter Lanjut
+              <button type="button" class="flex items-center gap-2 px-4 py-2 text-primary-forest bg-primary-lime/10 hover:bg-primary-lime/20 rounded-xl transition-colors text-sm font-bold">
+                <span class="material-symbols-outlined text-[18px]">upload</span>
+                Impor
               </button>
               <button type="button" class="flex items-center gap-2 px-4 py-2 text-primary-forest bg-primary-lime/10 hover:bg-primary-lime/20 rounded-xl transition-colors text-sm font-bold">
                 <span class="material-symbols-outlined text-[18px]">download</span>
@@ -271,12 +223,13 @@ $result = $conn->query($sql);
 
 
       <!-- Hapus -->
-      <a href="hapus_petani.php?id=<?php echo $row['id']; ?>"
-         onclick="return confirm('Yakin ingin menghapus?')"
-         class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+      <button type="button"
+         class="delete-btn p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+         data-id="<?php echo $row['id']; ?>"
+         data-nama="<?php echo htmlspecialchars($nama, ENT_QUOTES); ?>"
          title="Hapus">
         <span class="material-symbols-outlined text-[18px]">delete</span>
-      </a>
+      </button>
 
     </div>
   </td>
@@ -295,21 +248,91 @@ $result = $conn->query($sql);
 
           <!-- Pagination -->
           <div class="px-4 md:px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p class="text-xs font-semibold text-slate-500">Menampilkan 1 hingga 5 dari 1.284 petani</p>
+            <?php
+                $start_item = ($page_aktif - 1) * $items_per_page + 1;
+                $end_item = min($start_item + $items_per_page - 1, $total_items);
+            ?>
+            <p class="text-xs font-semibold text-slate-500">
+                <?php if ($total_items > 0): ?>
+                    Menampilkan <?php echo $start_item; ?> hingga <?php echo $end_item; ?> dari <?php echo $total_items; ?> petani
+                <?php else: ?>
+                    Tidak ada data untuk ditampilkan
+                <?php endif; ?>
+            </p>
+
+            <?php if ($total_pages > 1): ?>
             <div class="flex gap-2 w-full sm:w-auto justify-between sm:justify-end">
-              <button class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-400 disabled:opacity-50 shadow-sm" disabled>Prev</button>
-              <button class="px-3 py-1.5 bg-primary-forest text-white rounded-lg text-xs font-bold shadow-md">1</button>
-              <button class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">2</button>
-              <button class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">3</button>
-              <span class="px-2 py-1.5 text-slate-400 font-bold text-xs">...</span>
-              <button class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">257</button>
-              <button class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">Next</button>
+                <?php
+                    // Fungsi untuk membuat URL dengan parameter yang ada
+                    function page_url($page, $status_filter, $search_query) {
+                        $params = [];
+                        if ($status_filter && $status_filter !== 'all') $params['status'] = $status_filter;
+                        if ($search_query) $params['search'] = $search_query;
+                        $params['page'] = $page;
+                        return '?' . http_build_query($params);
+                    }
+                ?>
+
+                <!-- Tombol Prev -->
+                <a href="<?php echo page_url($page_aktif - 1, $status_filter, $search_query); ?>" 
+                   class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm <?php if($page_aktif <= 1){ echo 'opacity-50 cursor-not-allowed'; } ?>">Prev</a>
+
+                <?php
+                    // Logika untuk menampilkan nomor halaman
+                    $range = 1;
+                    $start = max(1, $page_aktif - $range);
+                    $end = min($total_pages, $page_aktif + $range);
+
+                    if ($start > 1) {
+                        echo '<a href="'.page_url(1, $status_filter, $search_query).'" class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">1</a>';
+                        if ($start > 2) echo '<span class="px-2 py-1.5 text-slate-400 font-bold text-xs">...</span>';
+                    }
+
+                    for ($i = $start; $i <= $end; $i++) {
+                        if ($i == $page_aktif) {
+                            echo '<button class="px-3 py-1.5 bg-primary-forest text-white rounded-lg text-xs font-bold shadow-md">'.$i.'</button>';
+                        } else {
+                            echo '<a href="'.page_url($i, $status_filter, $search_query).'" class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">'.$i.'</a>';
+                        }
+                    }
+
+                    if ($end < $total_pages) {
+                        if ($end < $total_pages - 1) echo '<span class="px-2 py-1.5 text-slate-400 font-bold text-xs">...</span>';
+                        echo '<a href="'.page_url($total_pages, $status_filter, $search_query).'" class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm">'.$total_pages.'</a>';
+                    }
+                ?>
+
+                <!-- Tombol Next -->
+                <a href="<?php echo page_url($page_aktif + 1, $status_filter, $search_query); ?>" 
+                   class="px-3 py-1.5 border border-slate-200 bg-white rounded-lg text-xs font-bold text-slate-500 hover:bg-slate-100 transition-colors shadow-sm <?php if($page_aktif >= $total_pages){ echo 'opacity-50 cursor-not-allowed'; } ?>">Next</a>
             </div>
+            <?php endif; ?>
           </div>
         </div>
 
       </div>
     </main>
+
+    <!-- Custom Delete Confirmation Modal -->
+    <div id="deleteConfirmModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div id="deleteConfirmCard" class="bg-white rounded-3xl shadow-2xl w-full max-w-xs p-5 md:p-6 text-center transform scale-95 transition-all duration-300" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="mx-auto w-14 h-14 rounded-full bg-red-100 flex items-center justify-center text-red-600 mb-4 shadow-sm border-[4px] border-white ring-4 ring-red-50">
+                <span class="material-symbols-outlined text-2xl">delete_forever</span>
+            </div>
+            <h3 id="modal-title" class="text-xl font-black text-slate-800">Konfirmasi Hapus</h3>
+            <p class="text-slate-500 mt-1 text-sm font-medium leading-relaxed">
+                Apakah Anda yakin ingin menghapus data petani <strong id="modalPetaniName" class="text-slate-800 font-bold"></strong>? Tindakan ini tidak dapat dibatalkan.
+            </p>
+            <div class="flex flex-col-reverse sm:flex-row justify-center gap-3 mt-6">
+                <button id="cancelDeleteBtn" type="button" class="w-full px-4 py-2.5 rounded-xl font-bold text-slate-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-colors">
+                    Batal
+                </button>
+                <a id="modalConfirmDeleteBtn" href="#" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500 text-white font-bold hover:brightness-110 transition-all shadow-md">
+                    Ya, Hapus
+                </a>
+            </div>
+        </div>
+    </div>
   </div>
 
   <script>
@@ -338,6 +361,50 @@ $result = $conn->query($sql);
           }
         }
       });
+    }
+
+    // Custom Modal Logic
+    const deleteModal = document.getElementById('deleteConfirmModal');
+    const deleteCard = document.getElementById('deleteConfirmCard');
+    if (deleteModal) {
+        const cancelBtn = document.getElementById('cancelDeleteBtn');
+        const confirmBtn = document.getElementById('modalConfirmDeleteBtn');
+        const petaniNameSpan = document.getElementById('modalPetaniName');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const id = this.getAttribute('data-id');
+                const nama = this.getAttribute('data-nama');
+                
+                petaniNameSpan.textContent = nama;
+                confirmBtn.href = `hapus_petani.php?id=${id}`;
+                
+                deleteModal.classList.remove('pointer-events-none');
+                // Trigger reflow untuk animasi fade-in
+                void deleteModal.offsetWidth;
+                deleteModal.classList.remove('opacity-0');
+                deleteCard.classList.remove('scale-95');
+            });
+        });
+
+        function hideModal() {
+            deleteModal.classList.add('opacity-0');
+            deleteCard.classList.add('scale-95');
+            setTimeout(() => {
+                deleteModal.classList.add('pointer-events-none');
+            }, 300); // Sesuaikan dengan durasi animasi
+        }
+
+        cancelBtn.addEventListener('click', hideModal);
+
+        deleteModal.addEventListener('click', function(event) {
+            // Sembunyikan modal jika user klik area overlay (di luar kotak modal)
+            if (event.target === deleteModal) {
+                hideModal();
+            }
+        });
     }
   </script>
 </body>

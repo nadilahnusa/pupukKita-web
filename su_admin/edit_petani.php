@@ -56,20 +56,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>Edit Petani | PupuKita</title>
   
   <link href="../assets/css/style.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
 <body class="bg-bg-soft font-display text-slate-800">
-  <div class="flex min-h-screen overflow-x-hidden">
+  <div class="relative flex h-screen w-full overflow-hidden">
     
     <?php include '../components/sidebar_admin.php'; ?>
 
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
       
-      <?php include '../components/header_admin.php'; ?>
-      
-      <div class="p-4 md:p-8 max-w-3xl mx-auto w-full mt-4">
+      <div class="space-y-6 md:space-y-8 mt-4 md:mt-6">
         
         <!-- Header Area -->
         <div class="flex items-center gap-4 mb-8">
@@ -92,29 +90,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Form Card -->
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-            <form action="" method="POST" class="p-6 md:p-8 space-y-6">
+            <form id="formEditPetani" action="" method="POST" class="p-6 md:p-8 space-y-6">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Nama (Hanya dibaca, diambil dari tabel users) -->
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">Nama Lengkap</label>
-                        <input type="text" name="nama" value="<?php echo htmlspecialchars($data['user_nama'] ?? ''); ?>" required
+                        <input type="text" id="nama" name="nama" value="<?php echo htmlspecialchars($data['user_nama'] ?? ''); ?>" required
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all text-slate-700 font-medium">
+                        <p id="error-nama" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
 
                     <!-- NIK (Hanya dibaca) -->
                     <div class="space-y-2">
                         <label class="text-sm font-bold text-slate-700">NIK (Nomor Induk Kependudukan)</label>
-                        <input type="text" name="nik" value="<?php echo htmlspecialchars($data['user_nik'] ?? ''); ?>" required
+                        <input type="text" id="nik" name="nik" value="<?php echo htmlspecialchars($data['user_nik'] ?? ''); ?>" required minlength="16" maxlength="16"
                                class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all font-mono text-slate-700 font-medium">
+                        <p id="error-nik" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                     </div>
                 </div>
 
                 <!-- Luas Tanah -->
                 <div class="space-y-2 pt-2">
                     <label class="text-sm font-bold text-slate-700">Luas Tanah Lahan (m²)</label>
-                    <input type="number" step="0.01" name="luas_tanah" value="<?php echo htmlspecialchars($data['luas_tanah'] ?? ''); ?>" placeholder="Contoh: 1500" required
+                    <input type="number" step="0.01" id="luas_tanah" name="luas_tanah" value="<?php echo htmlspecialchars($data['luas_tanah'] ?? ''); ?>" placeholder="Contoh: 1500" required
                            class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-primary-lime focus:ring-2 focus:ring-primary-lime/20 outline-none bg-white transition-all font-medium text-slate-700 shadow-sm">
+                    <p id="error-luas-tanah" class="text-red-500 text-xs mt-1 font-medium hidden"></p>
                 </div>
 
                 <!-- Status Petani -->
@@ -155,6 +156,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           sidebar.classList.toggle('-ml-64'); sidebar.classList.add('hidden'); sidebar.classList.remove('flex');
         }
       });
+    }
+
+    const formEdit = document.getElementById('formEditPetani');
+    if (formEdit) {
+        const inputNama = document.getElementById('nama');
+        const inputNik = document.getElementById('nik');
+        const inputLuasTanah = document.getElementById('luas_tanah');
+
+        const errNama = document.getElementById('error-nama');
+        const errNik = document.getElementById('error-nik');
+        const errLuasTanah = document.getElementById('error-luas-tanah');
+
+        function toggleError(input, errorEl, message) {
+            if (message) {
+                errorEl.textContent = message;
+                errorEl.classList.remove('hidden');
+                input.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
+                input.classList.remove('border-slate-200', 'focus:border-primary-lime', 'focus:ring-primary-lime/20');
+                return false;
+            } else {
+                errorEl.classList.add('hidden');
+                input.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500/20');
+                input.classList.add('border-slate-200', 'focus:border-primary-lime', 'focus:ring-primary-lime/20');
+                return true;
+            }
+        }
+
+        function checkNama() {
+            const val = inputNama.value.trim();
+            if (val !== '' && !/^[a-zA-Z\s]+$/.test(val)) {
+                return toggleError(inputNama, errNama, "Nama hanya boleh berisi huruf.");
+            }
+            return toggleError(inputNama, errNama, null);
+        }
+
+        function checkNik() {
+            const val = inputNik.value.trim();
+            if (val !== '' && !/^\d{16}$/.test(val)) {
+                return toggleError(inputNik, errNik, "NIK harus terdiri dari 16 digit angka.");
+            }
+            return toggleError(inputNik, errNik, null);
+        }
+
+        function checkLuasTanah() {
+            const val = inputLuasTanah.value.trim();
+            if (val !== '' && (isNaN(val) || parseFloat(val) <= 0)) {
+                return toggleError(inputLuasTanah, errLuasTanah, "Luas tanah harus berupa angka valid lebih dari 0.");
+            }
+            return toggleError(inputLuasTanah, errLuasTanah, null);
+        }
+
+        inputNama.addEventListener('input', checkNama);
+        inputNik.addEventListener('input', checkNik);
+        inputLuasTanah.addEventListener('input', checkLuasTanah);
+
+        formEdit.addEventListener('submit', function(e) {
+            const v1 = checkNama();
+            const v2 = checkNik();
+            const v3 = checkLuasTanah();
+            if (!v1 || !v2 || !v3) {
+                e.preventDefault();
+            }
+        });
     }
   </script>
 </body>

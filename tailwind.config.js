@@ -29,7 +29,7 @@ module.exports = {
         "bg-card": "#ffffff",
       },
       fontFamily: {
-        display: ["Work Sans", "Space Grotesk", "sans-serif"],
+        display: ["Poppins", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "0.5rem",

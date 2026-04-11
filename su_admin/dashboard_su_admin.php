@@ -76,25 +76,37 @@ if (!$result_distribusi) {
   
   <link href="../assets/css/style.css" rel="stylesheet" />
   
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
 <body class="bg-bg-soft font-display text-slate-800">
-  <div class="flex min-h-screen overflow-x-hidden">
+  <div class="relative flex h-screen w-full overflow-hidden">
     
     <?php include '../components/sidebar_admin.php'; ?>
 
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 overflow-y-auto p-4 md:p-8">
       
       <?php include '../components/header_admin.php'; ?>
       
-      <div class="p-4 md:p-8 space-y-6 md:space-y-8">
+      <div class="space-y-6 md:space-y-8 mt-4 md:mt-6">
         <?php if (isset($_GET['success'])): ?>
           <div class="bg-green-100 text-green-700 px-4 py-3 rounded-lg font-semibold">
               ✅ Distribusi berhasil diverifikasi!
           </div>
         <?php endif; ?>
+
+        <!-- Header Section -->
+        <header class="mb-8 flex flex-wrap items-center justify-between gap-4 mt-6">
+          <div class="flex flex-col gap-1">
+            <h2 class="text-3xl font-black tracking-tight text-emerald-800">Dashboard Super Admin</h2>
+            <p class="text-primary-lime font-bold uppercase text-xs tracking-wider">Ringkasan Data Ekosistem PupuKita</p>
+          </div>
+          <div class="flex h-10 items-center gap-2 rounded-lg bg-white px-4 border border-slate-200 text-slate-600 shadow-sm">
+            <span class="material-symbols-outlined text-primary-lime">calendar_today</span>
+            <span class="text-sm font-bold"><?php echo date('d M Y'); ?></span>
+          </div>
+        </header>
         
         <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-6">
 
