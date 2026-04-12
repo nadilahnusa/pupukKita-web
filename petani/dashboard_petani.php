@@ -43,7 +43,7 @@ if ($total_kuota > 0) {
 }
 
 // 6. Ambil 5 Riwayat Pengambilan Terbaru
-$query_riwayat = mysqli_query($conn, "SELECT d.jumlah, d.tanggal, d.status, p.nama_pupuk FROM distribusi d JOIN pupuk p ON d.pupuk_id = p.id WHERE d.petani_id = '$petani_id' ORDER BY d.tanggal DESC LIMIT 5");
+$query_riwayat = mysqli_query($conn, "SELECT d.jumlah, d.tanggal, d.status, d.token, d.total_harga, p.nama_pupuk FROM distribusi d JOIN pupuk p ON d.pupuk_id = p.id WHERE d.petani_id = '$petani_id' ORDER BY d.tanggal DESC LIMIT 5");
 
 ?>
 
@@ -185,7 +185,7 @@ $query_riwayat = mysqli_query($conn, "SELECT d.jumlah, d.tanggal, d.status, p.na
                     <?php endif; ?>
                   </td>
                   <td class="px-4 md:px-6 py-3 md:py-4 text-right whitespace-nowrap">
-                    <button class="p-2 text-slate-400 hover:text-primary-lime bg-white hover:bg-primary-lime/10 rounded-lg border border-slate-200 hover:border-primary-lime/30 transition-all shadow-sm">
+                    <button type="button" onclick="showTokenModal('<?php echo htmlspecialchars($row['token']); ?>', <?php echo (int)$row['total_harga']; ?>)" class="p-2 text-slate-400 hover:text-primary-lime bg-white hover:bg-primary-lime/10 rounded-lg border border-slate-200 hover:border-primary-lime/30 transition-all shadow-sm" title="Lihat Token">
                       <span class="material-symbols-outlined text-[18px]">receipt_long</span>
                     </button>
                   </td>
@@ -202,6 +202,39 @@ $query_riwayat = mysqli_query($conn, "SELECT d.jumlah, d.tanggal, d.status, p.na
         </div>
       </div>
     </main>
+
+    <!-- Token Modal -->
+    <div id="tokenModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-opacity">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm p-6 text-center relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-lime to-primary-forest"></div>
+            <div class="mx-auto w-16 h-16 bg-primary-lime/20 text-primary-forest rounded-full flex items-center justify-center mb-4 shadow-sm ring-8 ring-primary-lime/5">
+                <span class="material-symbols-outlined text-3xl">local_activity</span>
+            </div>
+            <h3 class="text-xl font-black text-slate-800 mb-2">Token Pengambilan</h3>
+            <p class="text-slate-500 mb-6 font-medium text-sm">Tunjukkan token ini kepada petugas kios untuk mengambil pupuk Anda.</p>
+            
+            <div class="bg-bg-soft border-2 border-dashed border-primary-lime/40 rounded-xl p-4 mb-6">
+                <span class="text-3xl font-mono font-black text-primary-forest tracking-widest select-all block mb-4" id="modalTokenText">------</span>
+                
+                <div class="pt-4 border-t border-slate-200/60 flex flex-col items-center justify-center">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Total Pembayaran</p>
+                    <p class="text-2xl font-black text-slate-800 mb-2" id="modalHargaText">Rp 0</p>
+                    <div class="bg-blue-50 border border-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-bold flex items-center gap-1 w-fit mx-auto">
+                        <span class="material-symbols-outlined text-[14px]">info</span>
+                        Harap bawa uang pas
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-3">
+                <button onclick="closeTokenModal()" class="w-full px-4 py-2.5 rounded-xl font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">Tutup</button>
+                <button onclick="copyModalToken()" class="w-full px-4 py-2.5 rounded-xl font-bold text-white bg-primary-forest hover:bg-primary-lime hover:text-primary-forest transition-colors flex items-center justify-center gap-2 shadow-md active:scale-95">
+                    <span class="material-symbols-outlined text-[18px]" id="modalCopyIcon">content_copy</span>
+                    <span id="modalCopyText">Salin</span>
+                </button>
+            </div>
+        </div>
+    </div>
   </div>
 
   <script>
@@ -233,6 +266,31 @@ $query_riwayat = mysqli_query($conn, "SELECT d.jumlah, d.tanggal, d.status, p.na
           }
         }
       });
+    }
+
+    // Modal Logic untuk Token
+    function showTokenModal(token, harga) {
+        document.getElementById('modalTokenText').innerText = token;
+        
+        const formattedHarga = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(harga);
+        document.getElementById('modalHargaText').innerText = formattedHarga;
+        
+        document.getElementById('tokenModal').classList.remove('hidden');
+    }
+
+    function closeTokenModal() {
+        document.getElementById('tokenModal').classList.add('hidden');
+        // Mengembalikan tombol salin ke posisi awal
+        document.getElementById('modalCopyText').innerText = 'Salin';
+        document.getElementById('modalCopyIcon').innerText = 'content_copy';
+    }
+
+    function copyModalToken() {
+        const token = document.getElementById('modalTokenText').innerText;
+        navigator.clipboard.writeText(token).then(() => {
+            document.getElementById('modalCopyText').innerText = 'Tersalin!';
+            document.getElementById('modalCopyIcon').innerText = 'check';
+        });
     }
   </script>
 </body>

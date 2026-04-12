@@ -1,3 +1,7 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+
 <aside id="sidebar" class="w-64 border-r border-primary-lime/20 bg-white hidden md:flex flex-col shrink-0 transition-all duration-300 fixed md:relative top-0 left-0 md:left-auto z-50 h-screen shadow-2xl md:shadow-none rounded-r-3xl">
   
   <!-- Tombol Toggle Desktop -->
@@ -18,20 +22,36 @@
   </div>
 
   <nav class="flex-1 p-4 space-y-2">
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-lime/20 text-primary-forest font-bold shadow-sm" href="dashboard_su_admin.php">
+    <a href="dashboard_gudang.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'dashboard_gudang.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">dashboard</span>
       <span class="text-sm">Dashboard</span>
     </a>
     
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="manajemen_petani.php">
+    <a href="manajemen_petani.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'permintaan_pengambilan.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">local_shipping</span>
       <span class="text-sm">Permintaan Pengambilan</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
+    <a href="validasi_pengambilan.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'validasi_pengambilan.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">fact_check</span>
       <span class="text-sm">Validasi Pengambilan</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
+    <a href="stok_gudang.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'stok_gudang.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">inventory_2</span>
       <span class="text-sm">Stok Gudang</span>
     </a>

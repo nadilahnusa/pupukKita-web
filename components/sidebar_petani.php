@@ -1,3 +1,6 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
 <aside id="sidebar" class="w-64 border-r border-primary-lime/20 bg-white hidden md:flex flex-col shrink-0 transition-all duration-300 fixed md:relative top-0 left-0 md:left-auto z-50 h-screen shadow-2xl md:shadow-none rounded-r-3xl">
 
   <!-- Tombol Toggle Desktop -->
@@ -18,16 +21,30 @@
   </div>
 
   <nav class="flex-1 p-4 space-y-2">
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg bg-primary-lime/20 text-primary-forest font-bold shadow-sm" href="#">
+    <a href="dashboard_petani.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'dashboard_petani.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
+    
       <span class="material-symbols-outlined">dashboard</span>
       <span class="text-sm">Dashboard</span>
     </a>
     
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
+    <a href="ajuan_pengambilan.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'ajuan_pengambilan.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">shopping_cart_checkout</span>
       <span class="text-sm">Ajukan Pengambilan</span>
     </a>
-    <a class="flex items-center gap-3 px-4 py-3 rounded-lg text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium" href="#">
+
+    <a href="ajuan_perubahan_data.php"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg
+    <?php echo $current_page == 'ajuan_perubahan_data.php'
+    ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
+    : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">manage_accounts</span>
       <span class="text-sm">Ajukan Perubahan Data</span>
     </a>
