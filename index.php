@@ -148,7 +148,7 @@
 
                 <div class="flex flex-wrap gap-5">
                   <a
-                    href="login.html"
+                    href="./auth/login.php"
                     class="flex min-w-[180px] cursor-pointer items-center justify-center rounded-2xl h-14 px-8 bg-primary-lime text-primary-forest text-base font-bold hover:bg-primary-forest hover:text-white transition-all duration-500 futuristic-shadow glow-accent"
                   >
                     Masuk
