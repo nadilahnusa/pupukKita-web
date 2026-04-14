@@ -94,6 +94,12 @@ $result = $stmt->get_result();
             Petani baru berhasil didaftarkan!
           </div>
         <?php endif; ?>
+        <?php if (isset($_GET['msg']) && $_GET['msg'] == 'delete_success'): ?>
+          <div class="bg-emerald-100 text-emerald-700 px-4 py-3 rounded-xl font-bold flex items-center gap-2 shadow-sm border border-emerald-200">
+            <span class="material-symbols-outlined text-[20px]">check_circle</span>
+            Data petani beserta akunnya berhasil dihapus!
+          </div>
+        <?php endif; ?>
 
         <!-- Top Navigation Area -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
