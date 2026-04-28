@@ -31,9 +31,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
       <span class="text-sm">Dashboard</span>
     </a>
     
-    <a href="manajemen_petani.php"
+    <a href="pengambilan_pupuk.php"
     class="flex items-center gap-3 px-4 py-3 rounded-lg
-    <?php echo $current_page == 'permintaan_pengambilan.php'
+    <?php echo $current_page == 'pengambilan_pupuk.php'
     ? 'bg-primary-lime/20 text-primary-forest font-bold shadow-sm'
     : 'text-slate-600 hover:bg-primary-lime/10 hover:text-primary-forest transition-colors font-medium'; ?>">
       <span class="material-symbols-outlined">local_shipping</span>

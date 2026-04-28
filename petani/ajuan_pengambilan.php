@@ -45,8 +45,8 @@ if ($q_kuota) {
     }
 }
 
-// Kurangi dengan yang sudah Terpakai (status completed/pending, abaikan yang expired/dibatalkan)
-$q_terpakai = mysqli_query($conn, "SELECT pupuk_id, SUM(jumlah) as terpakai FROM distribusi WHERE petani_id = '$petani_id' AND status != 'expired' GROUP BY pupuk_id");
+// Kurangi dengan yang sudah Terpakai (hanya status 'completed')
+$q_terpakai = mysqli_query($conn, "SELECT pupuk_id, SUM(jumlah) as terpakai FROM distribusi WHERE petani_id = '$petani_id' AND status = 'completed' GROUP BY pupuk_id");
 if ($q_terpakai) {
     while ($row = mysqli_fetch_assoc($q_terpakai)) {
         $pid = $row['pupuk_id'];
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit_ajuan'])) {
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 </head>
 
-<body class="bg-bg-soft font-display text-slate-800 min-h-screen">
+<body class="bg-background-light font-display text-slate-800 min-h-screen">
   <div class="relative flex h-screen w-full overflow-hidden">
     <!-- Sidebar -->
     <?php include '../components/sidebar_petani.php'; ?>
